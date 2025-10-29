@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>जीवनी - आपकी कहानी, आपकी ताकत</title>
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <span>जी</span>
+                </div>
+                <div>
+                    <h1 class="logo-text">जीवनी</h1>
+                    <p class="logo-subtext">आपकी कहानी, आपकी ताकत</p>
+                </div>
+            </div>
+            <nav class="nav-desktop">
+                <div class="nav-item active" data-tab="home">
+                    <span>🏠</span>
+                    <span>होम</span>
+                </div>
+                <div class="nav-item" data-tab="stories">
+                    <span>📚</span>
+                    <span>कहानियाँ</span>
+                </div>
+                <div class="nav-item" data-tab="share">
+                    <span>✍️</span>
+                    <span>साझा करें</span>
+                </div>
+                <div class="nav-item" data-tab="chat">
+                    <span>🤖</span>
+                    <span>AI सहायता</span>
+                </div>
+            </nav>
+        </div>
+        <nav class="nav-mobile">
+            <div class="nav-mobile-items">
+                <div class="nav-mobile-item active" data-tab="home">
+                    <div>🏠</div>
+                    <div>होम</div>
+                </div>
+                <div class="nav-mobile-item" data-tab="stories">
+                    <div>📚</div>
+                    <div>कहानियाँ</div>
+                </div>
+                <div class="nav-mobile-item" data-tab="share">
+                    <div>✍️</div>
+                    <div>साझा</div>
+                </div>
+                <div class="nav-mobile-item" data-tab="chat">
+                    <div>🤖</div>
+                    <div>चैट</div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home Tab -->
+        <div id="home" class="content-tab active">
+            <section class="hero">
+                <h1 class="hero-title">आपकी कहानी महत्वपूर्ण है</h1>
+                <p class="hero-subtitle">
+                    जीवनी एक सुरक्षित स्थान है जहाँ आप अपने दर्द, आशाओं और जीत के बारे में बात कर सकते हैं। 
+                    दूसरों की कहानियों से प्रेरणा लें और अपनी यात्रा में आगे बढ़ें।
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" data-tab="stories">
+                        कहानियाँ पढ़ें
+                    </button>
+                    <button class="btn btn-secondary" data-tab="share">
+                        अपनी कहानी साझा करें
+                    </button>
+                </div>
+            </section>
+
+            <section class="featured-stories">
+                <h2 class="section-title">हाल की कहानियाँ</h2>
+                <div class="stories-grid" id="storiesGrid">
+                    <!-- Stories will be loaded here by JavaScript -->
+                </div>
+            </section>
+
+            <section class="motivational-quote">
+                <blockquote class="quote-text">
+                    "हर अंधेरे के बाद सुबह आती है।"
+                </blockquote>
+                <p class="quote-author">— जीवन की राह में</p>
+            </section>
+        </div>
+
+        <!-- Stories Tab -->
+        <div id="stories" class="content-tab">
+            <div class="stories-header">
+                <h2 class="section-title">सभी कहानियाँ</h2>
+                <div class="search-filter">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="searchStories" placeholder="कहानियाँ खोजें...">
+                    </div>
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="all">सभी श्रेणियाँ</option>
+                        <option value="लव लॉस">लव लॉस</option>
+                        <option value="परिवार">परिवार</option>
+                        <option value="करियर">करियर</option>
+                        <option value="आत्म-विकास">आत्म-विकास</option>
+                        <option value="मानसिक स्वास्थ्य">मानसिक स्वास्थ्य</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="stories-grid" id="storiesGridAll">
+                <!-- All stories will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Share Story Tab -->
+        <div id="share" class="content-tab">
+            <div class="share-container">
+                <div class="share-form">
+                    <h2 class="section-title">अपनी कहानी साझा करें</h2>
+                    <p style="text-align: center; color: #6b7280; margin-bottom: 2rem;">
+                        अपने अनुभव साझा करके दूसरों को प्रेरित करें। आपकी कहानी किसी के लिए उम्मीद की किरण बन सकती है।
+                    </p>
+
+                    <form id="storyForm">
+                        <div class="form-group">
+                            <label for="storyTitle" class="form-label">कहानी का शीर्षक</label>
+                            <input type="text" id="storyTitle" class="form-input" placeholder="कहानी का शीर्षक लिखें..." required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="storyCategory" class="form-label">श्रेणी</label>
+                            <select id="storyCategory" class="form-select">
+                                <option value="लव लॉस">लव लॉस</option>
+                                <option value="परिवार">परिवार</option>
+                                <option value="करियर">करियर</option>
+                                <option value="आत्म-विकास">आत्म-विकास</option>
+                                <option value="मानसिक स्वास्थ्य">मानसिक स्वास्थ्य</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="storyContent" class="form-label">आपकी कहानी</label>
+                            <textarea id="storyContent" class="form-textarea" placeholder="अपनी कहानी यहाँ लिखें... आपके शब्द किसी के लिए उम्मीद की किरण बन सकते हैं।" required></textarea>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="anonymousPost">
+                            <label for="anonymousPost">गुमनाम रूप से पोस्ट करें</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            कहानी प्रकाशित करें
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Chat Tab -->
+        <div id="chat" class="content-tab">
+            <div class="chat-container">
+                <div class="chat-box">
+                    <div class="chat-header">
+                        <h2>
+                            <span>🤖</span>
+                            AI सहायता
+                        </h2>
+                        <p>24/7 उपलब्ध, सहानुभूतिपूर्ण सहायता</p>
+                    </div>
+
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message message-ai">
+                            नमस्ते! मैं आपकी मदद के लिए यहाँ हूँ। आप कैसे महसूस कर रहे हैं आज?
+                        </div>
+                    </div>
+
+                    <form id="chatForm" class="chat-input">
+                        <input type="text" id="chatInput" placeholder="अपनी भावनाएँ साझा करें...">
+                        <button type="submit">भेजें</button>
+                    </form>
+                </div>
+
+                <div class="quick-buttons">
+                    <div class="quick-button" data-message="मैं बहुत दुखी हूँ">
+                        <span>😔</span>
+                        <p>मैं बहुत दुखी हूँ</p>
+                    </div>
+                    <div class="quick-button" data-message="मुझे प्रेरणा चाहिए">
+                        <span>✨</span>
+                        <p>मुझे प्रेरणा चाहिए</p>
+                    </div>
+                    <div class="quick-button" data-message="मैं हार मान रहा हूँ">
+                        <span>😞</span>
+                        <p>मैं हार मान रहा हूँ</p>
+                    </div>
+                    <div class="quick-button" data-message="मैं अकेला महसूस कर रहा हूँ">
+                        <span>🏃</span>
+                        <p>मैं अकेला महसूस कर रहा हूँ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <div class="footer-logo-icon">
+                    <span>जी</span>
+                </div>
+                <h3 class="footer-logo-text">जीवनी</h3>
+            </div>
+            <p class="footer-text">
+                एक सुरक्षित स्थान जहाँ आप अपनी कहानियाँ साझा कर सकते हैं, दूसरों की कहानियों से प्रेरणा ले सकते हैं, 
+                और भावनात्मक सहायता प्राप्त कर सकते हैं। आप अकेले नहीं हैं।
+            </p>
+            <div class="footer-divider"></div>
+            <p class="footer-bottom">
+                © 2024 जीवनी. सभी अधिकार सुरक्षित। एक सहानुभूतिपूर्ण समुदाय के लिए।
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
